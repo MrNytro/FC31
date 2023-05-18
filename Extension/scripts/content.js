@@ -1,18 +1,51 @@
+// Insert the button at the top of the page
 var button = document.createElement('button');
 button.textContent = 'Click Me';
 
 // Create an Audio element
 
-const mainContent = document.body.innerText;
-console.log(mainContent);
-const source = "http://api.voicerss.org/?key=ca4afd005154457a96cda353d9578493&hl=en-us&src=Amodhrandi";
+var paragraphs = document.querySelectorAll('p, article');
 
-var audio = new Audio(source);
+// Extract the text content from each paragraph/article element
+var contents = Array.from(paragraphs).map(function(element) {
+  return element.textContent.trim();
+});
+
+const StrContent = JSON.stringify(contents);
+
+console.log(typeof(StrContent));
+
+// Output the extracted contents
+console.log('Paragraph and Article Contents:', contents);
+
+const source = "http://api.voicerss.org/?key=ca4afd005154457a96cda353d9578493&hl=en-us&src=";
 
 // Add a click event listener to the button
-button.addEventListener('click', function() {
-  audio.play();
+let currentAudio = null;
+
+button.addEventListener('click', async function() {
+  if (currentAudio && !currentAudio.paused) {
+    // Audio is already playing, pause it
+    currentAudio.pause();
+    return;
+  }
+
+  for (var i = 0; i < StrContent.length; i += 500) {
+    var chunk = StrContent.substring(i, i + 500);
+    chunk = chunk.replace(/\\t|\\n/g, '');
+    console.log('Chunk:', chunk);
+    await test(chunk);
+  }
 });
+
+function test(chunk) {
+  return new Promise(resolve => {
+    const audio = new Audio("http://api.voicerss.org/?key=ca4afd005154457a96cda353d9578493&hl=en-us&src=" + chunk);
+    currentAudio = audio; // Store reference to the current audio
+    audio.play();
+    audio.onended = resolve;
+  });
+}
 
 // Insert the button at the top of the page
 var body = document.getElementsByTagName('body')[0];
@@ -138,11 +171,7 @@ function add_caption_below_image(data) {
   parent_element.parentNode.insertBefore(captionBox, parent_element.nextSibling);
 }
 
-
-
-
 const Server_url = "http://localhost:8888/predict/";
-
 function processImages(imgUrls) {
   // Send a POST request to the API with the image sources
   $.ajax({
