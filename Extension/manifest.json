@@ -3,6 +3,12 @@
   "name": "Reading time",
   "version": "1.0",
   "description": "Add the reading time to Chrome Extension documentation articles",
+  "action": {
+    "default_icon": "img.png"
+  },
+  "icons": {
+      "16":"img.png"
+  },
   "content_scripts": [
     {
       "js": [
