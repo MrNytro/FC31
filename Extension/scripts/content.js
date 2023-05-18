@@ -1,6 +1,7 @@
 // Insert the button at the top of the page
 var button = document.createElement('button');
-button.textContent = 'Click Me';
+button.textContent = 'Play';
+button.id = 'TTS_button';
 
 // Create an Audio element
 
@@ -20,7 +21,35 @@ console.log('Paragraph and Article Contents:', contents);
 
 const source = "http://api.voicerss.org/?key=ca4afd005154457a96cda353d9578493&hl=en-us&src=";
 
-// Add a click event listener to the button
+
+var audio = null;
+var isPaused = false;
+var currentTime = 0;
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'y') {
+    if (audio) {
+      if (isPaused) {
+        audio.play();
+        isPaused = false;
+      } else {
+        audio.pause();
+        isPaused = true;
+      }
+    } else {
+      var button = document.getElementById('TTS_button');
+      button.click();
+      audio = document.getElementsByTagName('audio')[0];
+      audio.addEventListener('play', function() {
+        isPaused = false;
+      });
+      audio.addEventListener('pause', function() {
+        isPaused = true;
+      });
+    }
+  }
+});
+
 let currentAudio = null;
 
 button.addEventListener('click', async function() {
@@ -46,7 +75,6 @@ function test(chunk) {
     audio.onended = resolve;
   });
 }
-
 // Insert the button at the top of the page
 var body = document.getElementsByTagName('body')[0];
 body.insertBefore(button, body.firstChild);
