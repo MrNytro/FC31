@@ -8,7 +8,7 @@ const forms = Array.from(document.querySelectorAll('form')).filter((form) => {
 
 // Check the remaining forms
 forms.forEach((form) => {
-    // Retrieve the form elements                                            STOP STALKING MY CODE
+    // Retrieve the form elements
     const formElements = form.querySelectorAll('input');
     // Identify the form type based on its CSS classes
     let formType = '';
@@ -45,10 +45,11 @@ forms.forEach((form) => {
             }
         }
     });
+    
     summary += formFields.join(' ');
     // Creating the summary element
     const summaryElement = document.createElement('p');
     summaryElement.textContent = summary;
-    // Inserting the summary element before the form
+    // Insert the summary element before the form
     form.insertAdjacentElement('beforebegin', summaryElement);
 });
