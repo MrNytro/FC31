@@ -1,3 +1,23 @@
+var button = document.createElement('button');
+button.textContent = 'Click Me';
+
+// Create an Audio element
+
+const mainContent = document.body.innerText;
+console.log(mainContent);
+const source = "http://api.voicerss.org/?key=ca4afd005154457a96cda353d9578493&hl=en-us&src=Amodhrandi";
+
+var audio = new Audio(source);
+
+// Add a click event listener to the button
+button.addEventListener('click', function() {
+  audio.play();
+});
+
+// Insert the button at the top of the page
+var body = document.getElementsByTagName('body')[0];
+body.insertBefore(button, body.firstChild);
+
 // Exclude the form if it contains search elements
 const forms = Array.from(document.querySelectorAll('form')).filter((form) => {
   const searchElements = Array.from(form.querySelectorAll('input')).filter((element) => {
@@ -121,7 +141,6 @@ function add_caption_below_image(data) {
 
 
 
-
 const Server_url = "http://localhost:8888/predict/";
 
 function processImages(imgUrls) {
@@ -132,13 +151,10 @@ function processImages(imgUrls) {
     contentType: 'application/json',
     data: "" + imgUrls + "",
     success: function (data) {
-
       for (let i = 0; i < data.length; i++) {
-
         add_caption_below_image(data[i]);
         console.log(data[i].caption);
         console.log(data[i].ocr);
-
       }
     },
     error: function (xhr) {
